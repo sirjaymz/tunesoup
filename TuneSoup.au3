@@ -128,7 +128,7 @@ GUISetOnEvent($GUI_EVENT_RESTORE, "TuneSoupForm1Restore")
 
 ;C:\Users\User\Documents\MiniDSP
 ;C:\Users\User\Documents\MiniDSP\MiniDSP-2x4-HD\setting
-; HOMEDRIVE=C:
+;EnvGet HOMEDRIVE=C:
 ; HOMEPATH=\Users\User
 ;MiniDSP
 ; dsp name = MiniDSP-2x4-HD
@@ -136,8 +136,6 @@ GUISetOnEvent($GUI_EVENT_RESTORE, "TuneSoupForm1Restore")
 ;files  = settings1.xml , settings2.xml , settings3.xml , settings4.xml
 ;   "C:\Program Files (x86)\miniDSP\MiniDSP-2x4-HD\MiniDSP-2x4-HD.exe"
 
-
-; USB tool https://www.nirsoft.net/utils/usb_devices_view.html
 
 
 ; Tool Bar
@@ -227,7 +225,7 @@ WEnd
 
 ; USBDeview Settings Form
 
-
+USBDeview.exe /RunAsAdmin /disable "USB\Vid_1058&Pid_1023\8539583490834690"
 
 
 
@@ -274,6 +272,51 @@ Func ReturnFromTray()
 	$TuneSoupMaximized = GUISetState( @SW_RESTORE, $TuneSoupForm1)
 EndFunc
 
+Func HelpMenuItemAboutClick()
+;$TuneSoupFormAbout = GUICreate("About TuneSoup", 324, 234, 303, 219)
+$TuneSoupFormAbout = GuiCreate("About TuneSoup",250,150,-1,-1,BitOR($WS_CAPTION,$WS_SYSMENU))
+GUISetOnEvent ($GUI_EVENT_CLOSE, "AboutOK" )
+GUICtrlCreateIcon (@AutoItExe,-1,11,11)
+;GUICtrlCreateLabel ("TuneSoup Ver: " & $TuneSoupVersion ,59,11,135,20)
+GUICtrlCreateLabel ("TuneSoup Ver: " & $TuneSoupVersion ,59,11)
+GUICtrlSetFont (-1,10, 800, 0, "Arial") ; bold
+GUICtrlCreateLabel ("(c) 2020" & @CRLF & @CRLF & "TuneSoup",59,30,135,40)
+$email = GUICtrlCreateLabel ("sirjaymz@gmail.com",59,70,135,15)
+GuiCtrlSetFont($email, 8.5, -1, 4) ; underlined
+GuiCtrlSetColor($email,0x0000ff)
+GuiCtrlSetCursor($email,0)
+GUICtrlSetOnEvent(-1, "OnEmail")
+$www = GUICtrlCreateLabel ("github.com/sirjaymz/tunesoup",59,85,140,15)
+GuiCtrlSetFont($www, 8.5, -1, 4) ; underlined
+GuiCtrlSetColor($www,0x0000ff)
+GuiCtrlSetCursor($www,0)
+GUICtrlSetOnEvent(-1, "OnWWW")
+GUICtrlCreateButton ("OK",65,115,75,23,BitOr($GUI_SS_DEFAULT_BUTTON, $BS_DEFPUSHBUTTON))
+GUICtrlSetState (-1, $GUI_FOCUS)
+GUICtrlSetOnEvent(-1, "AboutOK")
+GUISetState(@SW_SHOW, $TuneSoupFormAbout)
+EndFunc
+While 1
+    Sleep(100)
+WEnd
+
+Func OnEmail()
+    Run(@ComSpec & " /c " & 'start mailto:sirjaymz@gmail.com?subject=TuneSoup', "", @SW_HIDE)
+EndFunc
+
+Func OnWWW()
+    Run(@ComSpec & " /c " & 'start https://github.com/sirjaymz/tunesoup', "", @SW_HIDE)
+EndFunc
+
+Func AboutOK()
+    GUIDelete($TuneSoupFormAbout)
+EndFunc
+
+Func OnAutoItExit()
+    GUIDelete($TuneSoupFormAbout)
+EndFunc
+
+
 
 
 Func HelpMenuItemHomePageClick()
@@ -292,3 +335,76 @@ Func HelpMenuLinksMenuiNukeClick()
    ShellExecute('https://www.minidsp.com/support/downloads')
 EndFunc
 
+
+#cs
+
+Need to download this.. make a method built into.
+;http://www.linux-usb.org/usb.ids
+
+
+
+
+Disable/Enable/Remove Command-Line Options
+Starting from version 1.20, you can also use the following commands to disable, enable or remove USB devices from command-line:
+
+    /disable {\\RemoteComputer} <Device Name>
+    /disable_by_serial {\\RemoteComputer} <Device Serial>
+    /disable_by_drive {\\RemoteComputer} <Drive Letter>
+    /disable_by_class {\\RemoteComputer} <USB Class;USB SubClass;USB Protocol>
+    /disable_by_pid {\\RemoteComputer} <VendorID;ProductID>
+    /disable_all {\\RemoteComputer}
+    /enable {\\RemoteComputer} <Device Name>
+    /enable_by_serial {\\RemoteComputer} <Device Serial>
+    /enable_by_drive {\\RemoteComputer} <Drive Letter>
+    /enable_by_class {\\RemoteComputer} <USB Class;USB SubClass;USB Protocol>
+    /enable_by_pid {\\RemoteComputer} <VendorID;ProductID>
+    /enable_all {\\RemoteComputer}
+    /disable_enable {\\RemoteComputer} <Device Name>
+    /disable_enable_by_serial {\\RemoteComputer} <Device Serial>
+    /disable_enable_by_drive {\\RemoteComputer} <Drive Letter>
+    /disable_enable_by_class {\\RemoteComputer} <USB Class;USB SubClass;USB Protocol>
+    /disable_enable_by_pid {\\RemoteComputer} <VendorID;ProductID>
+    /disable_enable_all {\\RemoteComputer}
+    /remove {\\RemoteComputer} <Device Name>
+    /remove_by_serial {\\RemoteComputer} <Device Serial>
+    /remove_by_drive {\\RemoteComputer} <Drive Letter>
+    /remove_by_class {\\RemoteComputer} <USB Class;USB SubClass;USB Protocol>
+    /remove_by_pid {\\RemoteComputer} <VendorID;ProductID>
+    /remove_all {\\RemoteComputer}
+    /remove_all_connected - Remove all connected USB devices.
+    /remove_all_disconnected - Remove all disconnected USB devices.
+
+Disable, enable and remove actions require elevation ('Run As Administrator'). You can use the above command-line options with elevation by adding /RunAsAdmin to the command, for example:
+USBDeview.exe /RunAsAdmin /disable "USB\Vid_1058&Pid_1023\8539583490834690"
+
+
+
+
+Check if a device is connected/disconnected or enabled/disabled
+Starting from version 2.70, you can check whether a device is connected/disconnected or enabled/disabled by using the following command-line options:
+
+    /is_connected {\\RemoteComputer} <Device Name>
+    /is_connected_by_serial {\\RemoteComputer} <Device Serial>
+    /is_connected_by_drive {\\RemoteComputer} <Drive Letter>
+    /is_connected_by_class {\\RemoteComputer} <USB Class;USB SubClass;USB Protocol>
+    /is_connected_by_pid {\\RemoteComputer} <VendorID;ProductID>
+    /is_disabled {\\RemoteComputer} <Device Name>
+    /is_disabled_by_serial {\\RemoteComputer} <Device Serial>
+    /is_disabled_by_drive {\\RemoteComputer} <Drive Letter>
+    /is_disabled_by_class {\\RemoteComputer} <USB Class;USB SubClass;USB Protocol>
+    /is_disabled_by_pid {\\RemoteComputer} <VendorID;ProductID>
+
+When using the above commands, USBDeview returns the number of disabled or connected devices that match the specified string.
+For example, the following batch file will display 1 if the device with serial number 7538957348957398 is connected or 0 if the device is not connected:
+USBDeview.exe /is_connected_by_serial "7538957348957398"
+echo %ERRORLEVEL%
+
+
+Need to make an active debug output form window from the UDBDeview application when it's executed, for troublshooting if there are problems... or if you want to see it work..
+
+AIT - Run command
+AIT - StdoutRead
+AIT - RunAs conmmand may play importance when looking to execute as administrator and eliminate the WAC bs from windwos..
+
+
+#ce
