@@ -52,18 +52,17 @@ Need to ensure the USBDeview exists all the time. check, double check, recheck, 
 #ce
 
 ;Global $TuneSoupVersion					= IniRead( @ScriptDir & "\" & "TuneSoup.ini", "Main", "Version", "Experimental") ; Version of TuneSoup
-Global $TuneSoupVersion					= "0.0.0.1"
+Global Const $TuneSoupVersion					= "0.0.0.1"
 Global $TuneSoupForm1					; Main Gui Form
 Global $TuneSoupForm2					; Settings Gui Form
 Global $TuneSoupFormAbout				; About Gui Form
 Global $BtnSendToTray					; Button/function to minimize Main Gui, and to create Tray Icon
-Global $FontSizeNorm					= 14
-Global $FontSizeBig						= 18
-Global $FontWeightNorm					= 400
-Global $FontWeightBold					= 800
-Global $FontAttrib						= 0
-;Global $FontName						= "MS Sans Serif"
-Global $FontName						= "Arial"
+Global Const $FontSizeNorm				= 14
+Global Const $FontSizeBig				= 18
+Global Const $FontWeightNorm			= 400
+Global Const $FontWeightBold			= 800
+Global Const $FontAttrib				= 0
+Global Const $FontName					= "Arial"
 
 
 
@@ -224,8 +223,8 @@ WEnd
 
 
 ; USBDeview Settings Form
-
-USBDeview.exe /RunAsAdmin /disable "USB\Vid_1058&Pid_1023\8539583490834690"
+; The line below is how you run usbd as administrator
+; USBDeview.exe /RunAsAdmin /disable "USB\Vid_1058&Pid_1023\8539583490834690"
 
 
 
@@ -317,8 +316,6 @@ Func OnAutoItExit()
 EndFunc
 
 
-
-
 Func HelpMenuItemHomePageClick()
    ShellExecute('https://github.com/sirjaymz/tunesoup')
 EndFunc
@@ -408,3 +405,9 @@ AIT - RunAs conmmand may play importance when looking to execute as administrato
 
 
 #ce
+
+
+
+
+
+
