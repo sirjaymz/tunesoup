@@ -1,6 +1,6 @@
 # tunesoup
 AutoIT automation script to control REW, miniDSP's, and hometheater hardware and make a 'soup' for configuraiton and calibration, pretty much anthing you want to automate
-using AutoIT as the basis, USBDeview for the Control of the U
+using AutoIT as the basis, USBDeview to turn on and off sub devices, and minidsp-rs to send configuraitons to the 3 minidsp2x4hd's in my hometheater setup.
 
 TuneSoup allows the control of software that can control USB devices, focusing on the minidsp 2x4HD device initially, with generic enable/disable of multiple devices connected of the USB link, versus using a physical
 USB switch that only supports a single unit connected via the USB at a time.
